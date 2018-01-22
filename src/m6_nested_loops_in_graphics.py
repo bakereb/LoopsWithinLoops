@@ -3,15 +3,15 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of TWO-DIMENSIONAL GRAPHICS.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Ethan Baker.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
 
 def main():
     """ Calls the other functions to demonstrate them. """
-    run_test_draw_L()
+    # run_test_draw_L()
     run_test_draw_wall_on_right()
 
 
@@ -80,9 +80,34 @@ def draw_L(window, circle, r, c):
     and m and n are small, positive integers.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
+
+    original_x = circle.center.x
+    original_y = circle.center.y
+    radius = circle.radius
+
+    x = original_x
+    y = original_y
+    for k in range(r):
+        for j in range(3):
+            new_circle = rg.Circle(rg.Point(x, y), radius)
+            new_circle.fill_color = circle.fill_color
+            new_circle.attach_to(window)
+            window.render(0.1)
+            x += 2 * radius
+        x = original_x
+        y += 2 * radius
+    for k in range(3):
+        for j in range(c + 3):
+            new_circle = rg.Circle(rg.Point(x, y), radius)
+            new_circle.fill_color = circle.fill_color
+            new_circle.attach_to(window)
+            window.render(0.1)
+            x += 2 * radius
+        x = original_x
+        y += 2 * radius
 
 
 def run_test_draw_wall_on_right():
@@ -125,8 +150,30 @@ def draw_wall_on_right(rectangle, n, window):
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
 
+    height = rectangle.get_height()
+    width = rectangle.get_width()
 
+    original_center_x = (rectangle.get_upper_right_corner().x + rectangle.get_upper_left_corner().x) / 2
+    original_center_y = (rectangle.get_lower_right_corner().y + rectangle.get_upper_right_corner().y) / 2
+
+    x = original_center_x
+    y = original_center_y
+
+    print(height, width)
+
+    for k in range(n):
+        for j in range(k + 1):
+            rect = rg.Rectangle(rg.Point(x - (width * 0.5), y - (width / 2)),
+                                rg.Point(x + (width * 0.5), y + (height / 2)))
+            rect.attach_to(window)
+            window.render()
+            x = x - width
+        x = original_center_x
+        y += height
+        print(y)
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
+
+
 main()
